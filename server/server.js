@@ -4,7 +4,6 @@ const app = express();
 const cors = require('cors');
 const path = require('path');
 const { addUser, removeUser, getUser, getUsers } = require('./userFunctions');
-
 const homeController = require('./controllers/homeController');
 const loginController = require('./controllers/loginController');
 const chatController = require('./controllers/chatController');
@@ -65,7 +64,7 @@ const server = app.listen(PORT, () => {
 
 
 // -------------------------------------------------------------------------
-const io = socket(server, {cors: {origin: '*'}});
+const io = socket(server, {cors : {origin: '*'}});
 
 io.on('connect', socket => {
   console.log('connected')
