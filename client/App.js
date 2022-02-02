@@ -52,7 +52,7 @@ class App extends Component {
   }
 
   refresh() {
-    fetch('/home')
+    fetch('/home', {mode: 'cors'})
       .then(res => res.json())
       .then(data => {
         // console.log(data);
