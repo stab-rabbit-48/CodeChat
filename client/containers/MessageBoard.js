@@ -6,6 +6,16 @@ import FavoriteElement from '../components/FavoriteElement';
 import AddChatroom from '../components/AddChatroom';
 
 const MessageBoard = props => {
+  /*
+  props = {
+    name: '', 
+    chatrooms: [{
+      title: 
+      status: 
+      password:
+    },]
+  }
+  */
 
   const chatrooms = props.chatrooms.map((el, i) => <ChatroomElement key={i} i={i} name={props.name} chatroomName={el.title} status={el.status} password={el.password}/>)
   const favorites = props.favorites.map((el, i) => <FavoriteElement key={i} i={i} name={props.name} chatroomName={el} />)
@@ -17,7 +27,7 @@ const MessageBoard = props => {
       <AddChatroom refresh={props.refresh}/>
       <header>
         <h1>CodeChat Chatrooms</h1>
-        <button onClick={(e) => {
+        <button id = 'addChatroom' onClick={(e) => {
           e.preventDefault();
           document.querySelector('#addChatroom').style.display='block';
         }}>Create Chatroom</button>

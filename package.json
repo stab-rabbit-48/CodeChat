@@ -7,7 +7,7 @@
     "start": "cross-env NODE_ENV=production node server/server.js",
     "build": "cross-env NODE_ENV=production webpack",
     "dev": "concurrently \"cross-env NODE_ENV=development nodemon server/server.js\" \"cross-env NODE_ENV=development webpack serve --open --hot\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -19,9 +19,14 @@
   "bugs": {
     "url": "https://github.com/Fairy-Armadillo/CodeChat/issues"
   },
+  "jest": {
+    "testEnvironment": "jsdom"
+  },
   "homepage": "https://github.com/Fairy-Armadillo/CodeChat#readme",
   "dependencies": {
+    "@testing-library/user-event": "^13.5.0",
     "cors": "^2.8.5",
+    "dotenv": "^15.0.0",
     "express": "^4.12.3",
     "pg": "^8.7.1",
     "query-string": "^7.1.0",
@@ -29,6 +34,7 @@
     "react-dom": "^17.0.2",
     "react-router": "^6.2.1",
     "react-router-dom": "^6.2.1",
+    "regenerator-runtime": "^0.13.9",
     "socket.io": "^4.4.1",
     "socket.io-client": "^4.4.1"
   },
@@ -36,6 +42,8 @@
     "@babel/core": "^7.16.12",
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
+    "@testing-library/jest-dom": "^5.16.1",
+    "@testing-library/react": "^12.1.2",
     "babel-loader": "^8.2.3",
     "concurrently": "^6.0.2",
     "cross-env": "^7.0.3",
@@ -43,10 +51,12 @@
     "eslint": "^8.8.0",
     "eslint-plugin-react": "^7.28.0",
     "html-webpack-plugin": "^5.5.0",
+    "jest": "^27.4.7",
     "nodemon": "^2.0.7",
     "sass": "^1.49.0",
     "sass-loader": "^12.4.0",
     "style-loader": "^3.3.1",
+    "supertest": "^6.2.2",
     "webpack": "^5.67.0",
     "webpack-cli": "^4.8.0",
     "webpack-dev-server": "^4.7.3"

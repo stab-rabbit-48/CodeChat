@@ -13,15 +13,6 @@ async function loginUser(credentials) {
  }
 
 const Login = props => {
-  // const handleSubmit = async e => {
-  //   e.preventDefault();
-  //   const token = await loginUser({
-  //     username,
-  //     password
-  //   });
-  //   setToken(token);
-  // }
-
 
   const handleLogin = () => {
     fetch('/', {
@@ -34,14 +25,9 @@ const Login = props => {
   return (
     <div className="logincontainer">
       <h1>Please Log In via GitHub Authentication</h1>
-      {/* <button onClick={handleLogin}>Login</button> */}
       <button onClick={props.handleClick}>Login</button>
     </div>
   );
 }
-
-// Login.propTypes = {
-//   setToken: PropTypes.func.isRequired
-// };
 
 export default Login;

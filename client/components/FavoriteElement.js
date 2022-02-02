@@ -8,7 +8,6 @@ const FavoriteElement = props => {
   return(
     <div className='favorites'>
       <h2 onClick={(e) => {
-        // navigate(`/chatroom/${props.chatroomName}`);
         navigate('/chatroom', {state: {name: props.name, room: props.chatroomName}});
       }}>{props.chatroomName}'s Room</h2>
     </div>

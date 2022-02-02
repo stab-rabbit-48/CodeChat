@@ -3,9 +3,10 @@ const path = require('path');
 const express = require('express');
 const socketio = require('socket.io');
 const app = express();
-const PORT = 3000;
 const cors = require('cors');
 const { addUser, removeUser, getUser, getUsers } = require('./userFunctions');
+
+const PORT = 3000;
 
 const routerPage = require('./Routers/routers')
 
