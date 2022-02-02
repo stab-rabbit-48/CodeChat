@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Login from './containers/Login';
 import Chatroom from './containers/Chatroom';
 import MessageBoard from './containers/MessageBoard';
+import io from "socket.io-client";
 
 
 class App extends Component {
@@ -18,7 +19,6 @@ class App extends Component {
       favorites: ['David', 'Yuanji', 'Evan', 'Charlie'],
     };
 
-    // const [token, setToken] = useState();
     this.logIn = this.logIn.bind(this);
     this.signOut = this.signOut.bind(this);
     this.refresh = this.refresh.bind(this);
@@ -55,7 +55,6 @@ class App extends Component {
     fetch('/home', {mode: 'cors'})
       .then(res => res.json())
       .then(data => {
-        // console.log(data);
         return this.setState({
           ...this.state,
           chatrooms: data
@@ -68,13 +67,13 @@ class App extends Component {
     if(!this.state.loggedIn) {
       return (<Login handleClick={this.logIn}/>)
     }
-
+    const socket = io.connect();
     return (
       <div id='container'>
         <Router>
           <Routes>
             <Route exact path='/' element={<MessageBoard refresh={this.refresh} signout={this.signOut} name={this.state.currentUser} chatrooms={this.state.chatrooms} favorites={this.state.favorites}/>} />
-            <Route path='/chatroom' element={<Chatroom />} />
+            <Route path='/chatroom' element={<Chatroom socket={socket}/>} />
           </Routes>
         </Router>
       </div>

@@ -67,28 +67,30 @@ const server = app.listen(PORT, () => {
 const io = socket(server, {cors : {origin: '*'}});
 
 io.on('connect', socket => {
-  console.log('connected')
+  socket.user = "Me";
+  console.log(socket.user + ' connected')
   // when the user enters the room
   socket.on('join', ({ name, room }) => {
-    const { user } = addUser({ name, room });
+    // const { user } = addUser({ name, room });
 
-    // socket.join(user.room);
-    socket.to(user.room).emit('message', { user: 'admin', message: `${user.name}, welcome to room ${user.room}!` });
-    socket.broadcast.emit('message', { user: 'admin', message: `${user.name} has joined the room!` });
-    io.to(user.room).emit('roomInfo', { room: user.room, users: getUsers(users.room) });
+    // // socket.join(user.room);
+    // socket.to(user.room).emit('message', { user: 'admin', message: `${user.name}, welcome to room ${user.room}!` });
+    // socket.broadcast.emit('message', { user: 'admin', message: `${user.name} has joined the room!` });
+    // io.to(user.room).emit('roomInfo', { room: user.room, users: getUsers(users.room) });
   });
 
   // when the user send a message
   socket.on('sendMessage', ({ name, message }) => {
-    const user = getUser(name);
-    io.to(user.room).emit('message', { user: user.name, message: message });
+    // const user = getUser(name);
+    // io.to(user.room).emit('message', { user: user.name, message: message });
   });
 
   // when the user leave the room
-  socket.on('disconnect', name => {
-    const user = removeUser(name);
-    io.to(user.room).emit('message', { user: 'admin', message: `${user.name} has left the room` });
-    io.to(user.room).emit('roomInfo', { room: user.room, users: getUsers(user.room)});
+  socket.on('disconnect', () => {
+    console.log(socket.user + ' disconnected');
+    // const user = removeUser(name);
+    // io.to(user.room).emit('message', { user: 'admin', message: `${user.name} has left the room` });
+    // io.to(user.room).emit('roomInfo', { room: user.room, users: getUsers(user.room)});
   });
 });
 
