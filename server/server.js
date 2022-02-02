@@ -1,23 +1,50 @@
-const http = require('http');
-const path = require('path');
 const express = require('express');
-const socketio = require('socket.io');
+const socket = require('socket.io');
 const app = express();
 const cors = require('cors');
+const path = require('path');
 const { addUser, removeUser, getUser, getUsers } = require('./userFunctions');
+
+const homeController = require('./controllers/homeController');
+const loginController = require('./controllers/loginController');
+const chatController = require('./controllers/chatController');
 
 const PORT = 3000;
 
-const routerPage = require('./Routers/routers')
+const apiRouter = require('./Routers/apiRouter.js');
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../dist', 'index.html'));
+});
+
 // router handler
-app.use('/', routerPage)
+app.use('/api', apiRouter);
+
+app.get('/home', homeController.getChatrooms, (req, res) => {
+  return res.status(200).json(res.locals.chatrooms);
+});
+
+// // create new chatroom button
+//     // post request to server with form data from front end
+// app.post('/newChat', homeController.newChat, homeController.participantTable, homeController.messagesTable, (req, res) => {
+//   return res.status(200).json('[]')
+// });
+    
+// // access chatroom 
+//will need to be "router.get('/chatroom/*chatroom_id*', -> to access specific chatroom
+app.get('/chatroom', homeController.loadChat, (req, res) => {
+  return res.status(200).json('foo')
+});
 
 // router error 
-app.use((req, res) => res.status(404).send('This is not the page you\'re looking for...'));
+app.use((req, res) => {
+  return res.status(404).send('This is not the page you\'re looking for...')
+});
 
 // express error handler 
 app.use((err, req, res, next) => {
@@ -32,16 +59,13 @@ app.use((err, req, res, next) => {
 })
 
 // listen to server
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
     console.log(`Server listening on port: ${PORT}...`);
 });
 
 
 // -------------------------------------------------------------------------
-const server = http.createServer(app);
-const io = socketio(server, {
-    origin: '*',
-});
+const io = socket(server, {cors: {origin: '*'}});
 
 io.on('connect', socket => {
   console.log('connected')
@@ -68,10 +92,6 @@ io.on('connect', socket => {
     io.to(user.room).emit('roomInfo', { room: user.room, users: getUsers(user.room)});
   });
 });
-
-// server.listen(PORT, () => {
-//   console.log(`Server listening on port: ${PORT}...`);
-// });
 
 
 // -------------------------------------------------------------------------

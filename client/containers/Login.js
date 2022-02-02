@@ -16,6 +16,7 @@ const Login = props => {
 
   const handleLogin = () => {
     fetch('/', {
+      mode: 'cors',
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: ''
