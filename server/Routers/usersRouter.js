@@ -1,30 +1,40 @@
 const express = require('express');
 const router = express.Router();
 const dbApi = require('../messageBoardModel.js');
-const loginController = require('../controllers/loginController.js');
+const userController = require('../controllers/userController.js');
 const { generateAccessToken } = require('../utils/users');
+
 
 //api/users/register ----> adds a record to users table db
 router.post('/register',
-  loginController.register,
+  userController.register,
   (req, res) => {
-    return res.status(200).json(res.locals)
+    return res.status(200).json(res.locals);
   }
 );
 
 //api/users/verifylogin ----> checks the users table to see if it finds a record
 router.post('/verifylogin', 
-  loginController.verifylogin,
-  (req, res, next) => {
-    let token; 
-    if (res.locals.verifyLogin.username && res.locals.verifyLogin.isAuthenticated) {
-      token = generateAccessToken(res.locals.verifyLogin.username);
-      res.locals.verifyLogin.token = token;
-    }
+  userController.verifylogin,
+  userController.setCookieANDToken,
+  (req, res) => {
     return res.status(200).json(res.locals);//.res.json(token);
   }
 );
 
+router.get('/authenticate', 
+  // userController.authenticate,
+  // (req,res) => {
+  //   return res.status(200).send()
+  // }
+)
+
+router.get('/logout', 
+  userController.logout, 
+  (req, res) => {
+    return res.redirect('/login');
+  }
+)
 
 
 /*----------stretch goals -------------*/

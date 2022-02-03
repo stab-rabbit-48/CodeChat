@@ -2,9 +2,10 @@ const dbApi = require('../messageBoardModel.js');
 const bcrypt = require('bcrypt');
 const { generateAccessToken } = require('../utils/users');
 
-const loginController = {};
+const userController = {};
 
-loginController.verifylogin = (req, res, next) => {
+userController.verifylogin = (req, res, next) => {
+  
   const { username, password } = req.body;
   const query = 'SELECT * FROM users WHERE username = $1 LIMIT 1';
   const params = [username];
@@ -18,7 +19,7 @@ loginController.verifylogin = (req, res, next) => {
         // if there was no users or multiple users with the same username
         // set isAuthenticated to false and go to next middleware
         if (data.rows.length !== 1) {
-            res.locals.verifyLogin = defaultAuth;
+            res.locals.user = defaultAuth;
             return next();
         }
         // if there was 1 user, compare the stored hash to the inputted password
@@ -26,16 +27,15 @@ loginController.verifylogin = (req, res, next) => {
         // if they don't match, set isAuthenticated to false and go to next middleware
         bcrypt.compare(password, data.rows[0].password)
           .then(result => {
-            // console.log('result is:', result)
             // if result is true, then they are the same
             if (result === true) {
                 defaultAuth.isAuthenticated = true;
                 defaultAuth.username = username;
                 defaultAuth.userID = data.rows[0].id;
-                res.locals.verifyLogin = defaultAuth;
+                res.locals.user = defaultAuth;
                 return next();
             } else {
-              res.locals.verifyLogin = defaultAuth;
+              res.locals.user = defaultAuth;
               return next();
             }
           })
@@ -46,15 +46,31 @@ loginController.verifylogin = (req, res, next) => {
     .catch(err => {
         return next({
             log: err,
-            message: {err: 'An error has occurred in the loginController.verifylogin middleware'}
+            message: {err: 'An error has occurred in the userController.verifylogin middleware'}
         })
     })
 }
 
+userController.authenticate = (req, res, next) => {
+  return next();
+}
+
+userController.logout = (req, res, next) => {
+  res.clearCookie('jwt');
+  res.clearCookie('username');
+}
 
 
+userController.setCookieANDToken = (req, res, next) => {
+  if (res.locals.user.isAuthenticated && res.locals.user.username) {
+    res.locals.user.token = generateAccessToken(res.locals.user.username);
+    res.cookie('jwt', res.locals.user.token);
+    res.cookie('username', res.locals.user.username, { httpOnly: true });
+  }
+  return next();
+}
 
-loginController.register = (req, res, next) => {
+userController.register = (req, res, next) => {
     const { username, password } = req.body;
     const defaultSignup = {
       validSignup: false, 
@@ -63,19 +79,18 @@ loginController.register = (req, res, next) => {
     }
     //check if password and/or username are empty string
     if (!username.length || !password.length) {
-        res.locals.verifySignup = defaultSignup;
+        res.locals.user = defaultSignup;
         return next()
     } else {
       const countQuery = `
         SELECT COUNT(*) FROM users
         WHERE username = $1
       `;
-      
       dbApi.query(countQuery, [username], (err, data) => {
         if (err) return next({ log: err });
         // if user already exists in database exit to next middleware 
         if (data.rows[0].count !== '0') {
-          res.locals.verifySignup = defaultSignup;
+          res.locals.user = defaultSignup;
           return next()
         } else {
           // if user does not exist in database 
@@ -94,7 +109,7 @@ loginController.register = (req, res, next) => {
                 defaultSignup.validSignup = true; 
                 defaultSignup.username = username; //come back to re-initialize 
                 defaultSignup.userID = Number(queryResponse.rows[0].id); //come back to re-initialize 
-                res.locals.verifySignup = defaultSignup; 
+                res.locals.user = defaultSignup; 
                 return next();
               }
             })
@@ -105,4 +120,4 @@ loginController.register = (req, res, next) => {
 }
 
 
-module.exports = loginController;
+module.exports = userController;

@@ -7,8 +7,8 @@ import MessageBoard from './containers/MessageBoard';
 
 
 const App = () => {
-  // return ( <Login />)
-  return (<Register />);
+  return ( <Login />)
+  // return (<Register />);
 }
 
 

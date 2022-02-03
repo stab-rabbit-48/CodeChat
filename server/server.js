@@ -5,8 +5,12 @@ const cors = require('cors');
 const path = require('path');
 const { addUser, removeUser, getUser, getUsers } = require('./userFunctions');
 const homeController = require('./controllers/homeController');
-const loginController = require('./controllers/loginController');
+const userController = require('./controllers/userController');
 const chatController = require('./controllers/chatController');
+const cookieParser = require('cookie-parser');
+
+
+
 
 const PORT = 3000;
 
@@ -15,7 +19,7 @@ const apiRouter = require('./Routers/apiRouter.js');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use(cookieParser());
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../dist', 'index.html'));
@@ -24,16 +28,10 @@ app.get('/', (req, res) => {
 // router handler
 app.use('/api', apiRouter);
 
-app.get('/home', homeController.getChatrooms, (req, res) => {
-  return res.status(200).json(res.locals.chatrooms);
-});
-
-// // create new chatroom button
-//     // post request to server with form data from front end
-// app.post('/newChat', homeController.newChat, homeController.participantTable, homeController.messagesTable, (req, res) => {
-//   return res.status(200).json('[]')
+// app.get('/home', homeController.getChatrooms, (req, res) => {
+//   return res.status(200).json(res.locals.chatrooms);
 // });
-    
+
 // // access chatroom 
 //will need to be "router.get('/chatroom/*chatroom_id*', -> to access specific chatroom
 app.get('/chatroom', homeController.loadChat, (req, res) => {
