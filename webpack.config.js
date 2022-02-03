@@ -17,14 +17,19 @@ module.exports = {
     })
   ],
   devServer: {
+    historyApiFallback: true, 
     static: {
-      publicPath: '/',
+      publicPath: '/dist',
       directory: path.resolve(__dirname, 'dist'),
     },
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+    },
+    port:8080,
     proxy: {
       '/': 'http://localhost:3000',
     },
-    hot: true,
+    hot: false, 
   },
   module: {
     rules: [
@@ -57,6 +62,6 @@ module.exports = {
   },
   resolve: {
     // Enable importing JS / JSX files without specifying their extension
-    extensions: ['.js', '.jsx'],
+    extensions: ['', '.js', '.jsx'],
   },
 };
