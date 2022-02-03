@@ -38,6 +38,14 @@ router.get('/logout',
 )
 
 
+router.post('/favorite/chatroom/:id',  
+  userController.addFavChatroom,
+  (req, res) => {
+    return res.redirect('/')
+  }
+);
+
+
 router.get('/grabUser', loginController.grabUser, (req, res) => {
   return res.status(200).json(res.locals.user); //res.locals.user = {username: foo, userID: foo}
 });
@@ -51,8 +59,5 @@ router.post('/favorite/post/:id', (req, res) => {
   console.log('hit')
 });
 
-router.post('/favorite/chatroom/:id', (req, res) => {
-  console.log('hit')
-});
 
 module.exports= router;

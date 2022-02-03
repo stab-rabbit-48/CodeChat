@@ -5,6 +5,7 @@ const { generateAccessToken } = require('../utils/users');
 const userController = {};
 
 userController.verifylogin = (req, res, next) => {
+  console.log('heree')
   
   const { username, password } = req.body;
   const query = 'SELECT * FROM users WHERE username = $1 LIMIT 1';
@@ -52,7 +53,12 @@ userController.verifylogin = (req, res, next) => {
 }
 
 userController.authenticate = (req, res, next) => {
-  return next();
+  jwt.verify(req.cookies.jwt, process.env.JWT_SECRET, (err, decoded) => {
+    if (decoded) return next();
+    else return next({
+      log: 'Not signed in'
+    });
+  })
 }
 
 userController.logout = (req, res, next) => {
@@ -65,8 +71,10 @@ userController.setCookieANDToken = (req, res, next) => {
   if (res.locals.user.isAuthenticated && res.locals.user.username) {
     res.locals.user.token = generateAccessToken(res.locals.user.username);
     res.cookie('jwt', res.locals.user.token);
+    res.cookie('user_id', res.locals.user.userID);
     res.cookie('username', res.locals.user.username, { httpOnly: true });
   }
+  console.log('i guess not');
   return next();
 }
 
@@ -119,5 +127,20 @@ userController.register = (req, res, next) => {
     }
 }
 
+
+userController.addFavChatroom = (req, res, next) => {
+  const chatroomId = req.body.chatroomId; 
+  const userdId = req.body.userId;
+  if (!chatroomId) return next({ log: 'No chatroom id present '});
+  const query = `
+    INSERT INTO user_chatroom_favorites (user_id, chatroom_id)
+    VALUES ($1, $2); 
+  `
+  const params = [userId, chatroomId]; 
+  dbApi.query(query, params, (err, data) => {
+    if (err) return next({ log: err });
+    return next(); // might need to change <-- 
+  })
+}
 
 module.exports = userController;

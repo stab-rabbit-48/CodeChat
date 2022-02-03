@@ -1,9 +1,12 @@
 const express = require('express');
+const chatController = require('../controllers/chatController.js');
 const router = express.Router();
 
 //api/messages/sendMessages/ ---> add a message to the messages table in the db
-router.post('/sendMessages', (req, res) => {
-  console.log('hit')
+router.post('/sendMessages', 
+  chatController.postMsg,
+  (req, res) => {
+    return res.status(200).json(res.locals)
 });
 
 //api/messages/deleteMessages/*message_id* ----> delete a specific message message   

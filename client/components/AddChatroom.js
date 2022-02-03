@@ -11,6 +11,7 @@ const AddChatroom = props => {
   const navigate = useNavigate();
 
   const saveChatroom = () => {
+    console.log('saveChatroom invoked');
     if (title === ''){setTitleError('required')}
     else if (status === 'Closed' && password === ''){setStatusError('required')}
     else {
