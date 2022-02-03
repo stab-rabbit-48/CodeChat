@@ -9,8 +9,8 @@ const MessageBoard = props => {
   const {socket} = props;
     
   console.log('chatrooms', props.chatrooms);
-  const chatrooms = props.chatrooms.map((el, i) => <ChatroomElement key={i} i={i} name={props.name} chatroomName={el.title} status={el.status} password={el.password}/>)
-  const favorites = props.favorites.map((el, i) => <FavoriteElement key={i} i={i} name={props.name} chatroomName={el} />)
+  // const chatrooms = props.chatrooms.map((el, i) => <ChatroomElement key={i} i={i} name={props.name} chatroomName={el.title} status={el.status} password={el.password}/>)
+  // const favorites = props.favorites.map((el, i) => <FavoriteElement key={i} i={i} name={props.name} chatroomName={el} />)
 
   console.log('props.chatrooms', props.chatrooms);
 
@@ -33,11 +33,11 @@ const MessageBoard = props => {
       <main>
         <nav>
           <h2 id='favorites'> Favorites </h2>
-          {favorites}
+          {/* {favorites} */}
           <button onClick={props.signout}>Sign Out</button>
         </nav>
         <section>
-          {chatrooms}
+          {/* {chatrooms} */}
         </section>
       </main>
     </div>

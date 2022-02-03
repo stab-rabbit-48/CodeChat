@@ -1,64 +1,56 @@
 const dbApi = require('../messageBoardModel.js');
 const bcrypt = require('bcrypt');
 const { generateAccessToken } = require('../utils/users');
-
+require('dotenv').config();
+const jwt = require('jsonwebtoken');
 const userController = {};
 
 userController.verifylogin = (req, res, next) => {
-  console.log('heree')
-  
-  const { username, password } = req.body;
-  const query = 'SELECT * FROM users WHERE username = $1 LIMIT 1';
-  const params = [username];
-  dbApi.query(query, params)
-    .then(data => {
-        const defaultAuth = {
-          isAuthenticated: false, 
-          username: undefined, 
-          userID: undefined,
-        }
-        // if there was no users or multiple users with the same username
-        // set isAuthenticated to false and go to next middleware
-        if (data.rows.length !== 1) {
-            res.locals.user = defaultAuth;
-            return next();
-        }
-        // if there was 1 user, compare the stored hash to the inputted password
-        // set isAuthenticated to true and return next if they match
-        // if they don't match, set isAuthenticated to false and go to next middleware
-        bcrypt.compare(password, data.rows[0].password)
-          .then(result => {
-            // if result is true, then they are the same
-            if (result === true) {
-                defaultAuth.isAuthenticated = true;
-                defaultAuth.username = username;
-                defaultAuth.userID = data.rows[0].id;
-                res.locals.user = defaultAuth;
-                return next();
-            } else {
-              res.locals.user = defaultAuth;
-              return next();
-            }
-          })
-          // error handling for bcrypt
-          .catch(err => { return next({ log: err }) })
-    })   
-    // error handling for dbApi.query
-    .catch(err => {
-        return next({
-            log: err,
-            message: {err: 'An error has occurred in the userController.verifylogin middleware'}
-        })
+  // console.log('enter veryifylogin middleware')
+  const { username, password } = req.body; 
+  const query = `
+    SELECT * FROM users 
+    WHERE username = $1 LIMIT 1
+  `;
+
+
+  dbApi.query(query, [username], (err, data) => {
+    // console.log('enter dbAPI query of verifylogin middleware')
+    if (err) { 
+      return next({ log: 'There was an error in userController.verifyLogin query'})
+    } 
+    if (data.rows.length !== 1) {
+      res.locals.isAuthenticated = false;
+    }
+    bcrypt.compare(password, data.rows[0].password, (err, result) => {
+      // console.log('enter bcrypt query of verifylogin middleware')
+      if (err) return next({ log: 'There was an error in verifyLogin bcrypt compare'});
+      if (result === true) {
+        // console.log('bcrypt approved!')
+        res.locals.username = username;
+        res.locals.userId = data.rows[0].id;
+        res.locals.isAuthenticated = true; 
+      } else {
+        res.locals.isAuthenticated = false; 
+      }
+      return next();
     })
+  })
 }
 
+
 userController.authenticate = (req, res, next) => {
+  res.locals.isAuthenticated = false; 
+  if (!req.cookies.jwt) {
+    return next();
+  }
   jwt.verify(req.cookies.jwt, process.env.JWT_SECRET, (err, decoded) => {
-    if (decoded) return next();
-    else return next({
-      log: 'Not signed in'
-    });
+    if (err) return next({ log: err });
+    if (decoded) res.locals.isAuthenticated = true; 
+    else res.locals.isAuthenticated = false; 
+    return next(); 
   })
+  
 }
 
 userController.logout = (req, res, next) => {
@@ -68,13 +60,17 @@ userController.logout = (req, res, next) => {
 
 
 userController.setCookieANDToken = (req, res, next) => {
-  if (res.locals.user.isAuthenticated && res.locals.user.username) {
-    res.locals.user.token = generateAccessToken(res.locals.user.username);
-    res.cookie('jwt', res.locals.user.token);
-    res.cookie('user_id', res.locals.user.userID);
-    res.cookie('username', res.locals.user.username, { httpOnly: true });
+  // console.log('enter setCookie middleware')
+  // console.log("here", res.locals.isAuthenticated, res.locals.username);
+  if (res.locals.isAuthenticated && res.locals.username) {
+    // console.log('hit');
+    res.locals.token = generateAccessToken(res.locals.username);
+    // console.log('enter setCookie middleware if statement. res locals is:', res.locals.token)
+    res.cookie('jwt', res.locals.token); //res.locals.token not defined?
+    res.cookie('user_id', res.locals.userId);
+    res.cookie('username', res.locals.username, { httpOnly: true });
+
   }
-  console.log('i guess not');
   return next();
 }
 
@@ -144,3 +140,52 @@ userController.addFavChatroom = (req, res, next) => {
 }
 
 module.exports = userController;
+
+
+
+
+// userController.verifylogin = (req, res, next) => {
+//   const { username, password } = req.body;
+//   const query = 'SELECT * FROM users WHERE username = $1 LIMIT 1';
+//   const params = [username];
+//   dbApi.query(query, params)
+//     .then(data => {
+//         const defaultAuth = {
+//           isAuthenticated: false, 
+//           username: undefined, 
+//           userID: undefined,
+//         }
+//         // if there was no users or multiple users with the same username
+//         // set isAuthenticated to false and go to next middleware
+//         if (data.rows.length !== 1) {
+//             res.locals.user = defaultAuth;
+//             return next();
+//         }
+//         // if there was 1 user, compare the stored hash to the inputted password
+//         // set isAuthenticated to true and return next if they match
+//         // if they don't match, set isAuthenticated to false and go to next middleware
+//         bcrypt.compare(password, data.rows[0].password)
+//           .then(result => {
+//             // if result is true, then they are the same
+//             if (result === true) {
+//                 defaultAuth.isAuthenticated = true;
+//                 defaultAuth.username = username;
+//                 defaultAuth.userID = data.rows[0].id;
+//                 res.locals.user = defaultAuth;
+//                 return next();
+//             } else {
+//               res.locals.user = defaultAuth;
+//               return next();
+//             }
+//           })
+//           // error handling for bcrypt
+//           .catch(err => { return next({ log: err }) })
+//     })   
+//     // error handling for dbApi.query
+//     .catch(err => {
+//       return next({
+//           log: err,
+//           message: {err: 'An error has occurred in the userController.verifylogin middleware'}
+//       })
+//     })
+// }

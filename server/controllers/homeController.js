@@ -11,7 +11,7 @@ homeController.getChatrooms = (req, res, next) => {
     db.query(sqlQuery)
       .then((data) => {
         res.locals.chatrooms = data.rows;
-        console.log('res.locals.chatrooms', res.locals.chatrooms);
+        // console.log('res.locals.chatrooms', res.locals.chatrooms);
         next();
       })
       .catch((err) => {

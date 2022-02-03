@@ -4,7 +4,7 @@ import '../style.scss'
 
 const Register = props => {
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -28,9 +28,6 @@ const Register = props => {
   }
 
 
-  const redirectToLogin = () => {
-    // navigate('/login')
-  }
 
   return (
     <div className = "register-container">
@@ -39,7 +36,7 @@ const Register = props => {
         <input type='text' name='username' required placeholder='username'></input>
         <input type='password' name='password' required placeholder='password'></input>
         <button type = 'submit'>Register</button>
-        <button type = 'button' onClick = {redirectToLogin}>Already a member? Click here</button>
+        <button type = 'button' onClick = {() => { navigate('/login') }}>Already a member? Click here</button>
       </form>
     </div>
   )

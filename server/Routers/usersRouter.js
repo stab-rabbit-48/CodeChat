@@ -15,19 +15,26 @@ router.post('/register',
 );
 
 //api/users/verifylogin ----> checks the users table to see if it finds a record
-router.post('/verifylogin', 
+router.post('/login', 
   userController.verifylogin,
   userController.setCookieANDToken,
   (req, res) => {
-    return res.status(200).json(res.locals);//.res.json(token);
+    // console.log('in last login middleware')
+    // console.log('res.locals', res.locals);
+    // console.log(res.locals.token)    
+    // console.log(res.locals.isAuthenticated)
+    // console.log(res.locals.userId)
+    // console.log(res.locals.username)
+    return res.status(200).json(res.locals);
+    // return res.status(200).json({serverData: res.locals});//.res.json(token);
   }
 );
 
 router.get('/authenticate', 
-  // userController.authenticate,
-  // (req,res) => {
-  //   return res.status(200).send()
-  // }
+  userController.authenticate,
+  (req, res) => {
+    return res.status(200).json(res.locals);
+  }
 )
 
 router.get('/logout', 
