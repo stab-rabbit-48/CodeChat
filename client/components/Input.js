@@ -10,8 +10,9 @@ const Input = props => {
 
     if (message) {
       socket.emit('sendMessage', { name, message, room }, () => {
-        setMessage('');
+        
       });
+      setMessage('');
     }
   };
 
