@@ -4,9 +4,6 @@ import '../style.scss'
 
 const Login = props => {
 
-  // e is synthetic event
-  // handles the fetch to our server
-  // api/users/verifylogin
   const handleSubmit = (e) => {
     e.preventDefault();
     let username = e.target.username.value;

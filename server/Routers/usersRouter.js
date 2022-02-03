@@ -5,9 +5,12 @@ const loginController = require('../controllers/loginController.js');
 const { generateAccessToken } = require('../utils/users');
 
 //api/users/register ----> adds a record to users table db
-router.post('/register', (req, res) => {
-  console.log('hit')
-});
+router.post('/register',
+  loginController.register,
+  (req, res) => {
+    return res.status(200).json(res.locals)
+  }
+);
 
 //api/users/verifylogin ----> checks the users table to see if it finds a record
 router.post('/verifylogin', 

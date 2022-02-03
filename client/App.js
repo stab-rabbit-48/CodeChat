@@ -1,13 +1,14 @@
 import React, { Component, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './containers/Login';
+import Register from './containers/Register';
 import Chatroom from './containers/Chatroom';
 import MessageBoard from './containers/MessageBoard';
 
 
 const App = () => {
-  
-  return ( <Login />)
+  // return ( <Login />)
+  return (<Register />);
 }
 
 

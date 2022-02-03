@@ -188,3 +188,27 @@ html {
     }
   }
 }
+
+.register-container {
+  display: flex;
+  // flex-direction: column;
+  // margin: auto auto auto auto;
+  align-items: center;
+  justify-content: center;
+
+  .register-box {
+    background-color: blue;   
+    left: 50%;
+    max-width: 150px;
+    max-height: 150px;
+    // margin: auto auto auto auto;
+    input {
+      height: 25px;
+      width: 150px;
+    }
+    button {
+      height: auto;
+      width: auto;
+    }
+  }
+}
