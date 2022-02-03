@@ -14,4 +14,8 @@ router.delete('/deleteMessages/:id', (req, res) => {
   console.log('hit')
 });
 
+router.get('/all/:id',chatController.getChat, (req, res) => {
+  return res.json(res.locals.messages);
+});
+
 module.exports = router;

@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const homeController = require('./controllers/homeController');
 const userController = require('./controllers/userController');
 const chatController = require('./controllers/chatController');
+const chatHistoryFuncs = require('./utils/chatHistory.js');
 
 
 
@@ -82,21 +83,23 @@ const io = socket(server, {cors : {origin: '*'}});
 io.on('connect', socket => {
   // when the user enters the room
 
-  socket.on('join', ({ room }) => {
-    socket.join(room);
+  socket.on('join', ({ room_id }) => {
+    socket.join(room_id);
   });
 
   // when the user send a message
-  socket.on('sendMessage', ({ name, message, room }) => {
+  socket.on('sendMessage', ({ name, message, room_id, currentUserId }) => {
     // const user = getUser(name);
-    io.to(room).emit('receivedMessage', { name, message });
+    console.log('socket currentUserId', currentUserId);
+    chatHistoryFuncs.postMessage(room_id, currentUserId, message);
+    io.to(room_id).emit('receivedMessage', { name, message });
     // io.sockets.emit('receivedMessage', {name, message});
   });
 
   //when user lands on homepage
   socket.on('leave', (arr) => {
     for (let i = 0; i < arr.length; i++) {
-      socket.leave(arr[i].title);
+      socket.leave(arr[i].id); //**id comes from chatrooms table
     }
   })
 

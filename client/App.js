@@ -12,9 +12,10 @@ class App extends Component {
     super(props);
 
     this.state = {
-      currentUser: '',
-      currentChatroom: '',
-      token: '',
+      currentUser: null,
+      currentUserId: null,
+      currentChatroom: null,
+      token: null,
       loggedIn: true,
       chatrooms: [],
       favorites: ['David', 'Yuanji', 'Evan', 'Charlie'],
@@ -41,7 +42,8 @@ class App extends Component {
   .then (data => {
     return this.setState({
       ...this.state,
-      currentUser: data.username
+      currentUser: data.username,
+      currentUserId: data.user_id
     });
   })
 
@@ -85,7 +87,7 @@ class App extends Component {
             <Route path='/' element={<MessageBoard refresh={this.refresh} signout={this.signOut} name={this.state.currentUser} chatrooms={this.state.chatrooms} favorites={this.state.favorites} socket={socket}/>} />
             <Route path='/login' element={<Login />}/>
             <Route path='/register' element={<Register />}/>
-            <Route path='/chatroom' element={<Chatroom socket={socket}/>}/>
+            <Route path='/chatroom' element={<Chatroom socket={socket} currentUserId={this.state.currentUserId}/>}/>
           </Routes>
         </Router>
       </div>

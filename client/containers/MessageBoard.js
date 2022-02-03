@@ -9,10 +9,8 @@ const MessageBoard = props => {
   const {socket} = props;
     
   console.log('chatrooms', props.chatrooms);
-  const chatrooms = props.chatrooms.map((el, i) => <ChatroomElement key={i} i={i} name={props.name} chatroomName={el.title} status={el.status} password={el.password}/>)
+  const chatrooms = props.chatrooms.map((el, i) => <ChatroomElement key={i} i={i} room_id={el.id} name={props.name} chatroomName={el.title} status={el.status} password={el.password}/>)
   const favorites = props.favorites.map((el, i) => <FavoriteElement key={i} i={i} name={props.name} chatroomName={el} />)
-
-  console.log('props.chatrooms', props.chatrooms);
 
   useEffect(() => {
     socket.emit('leave', props.chatrooms)

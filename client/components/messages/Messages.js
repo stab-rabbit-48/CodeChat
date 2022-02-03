@@ -7,7 +7,6 @@ const Messages = props => {
   // const msgs = messages.map(msgReceived => {
   //   return <div><Message msgReceived={msgReceived} username={username} /></div>;
   // });
-  console.log('messages', messages);
   const msgs = messages.map((msgReceived, index) => {
     return <Message key={"message" + index} msgReceived={msgReceived} /> 
   });
