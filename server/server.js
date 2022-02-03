@@ -72,7 +72,7 @@ io.on('connect', socket => {
   // when the user enters the room
 
   socket.on('join', ({ room }) => {
-    socket.join(room); //welp -> 'test room' , Miko -> 'test room'
+    socket.join(room);
   });
 
   // when the user send a message
@@ -81,6 +81,13 @@ io.on('connect', socket => {
     io.to(room).emit('receivedMessage', { name, message });
     // io.sockets.emit('receivedMessage', {name, message});
   });
+
+  //when user lands on homepage
+  socket.on('leave', (arr) => {
+    for (let i = 0; i < arr.length; i++) {
+      socket.leave(arr[i].title);
+    }
+  })
 
   // when the user leave the room
   socket.on('disconnect', () => {

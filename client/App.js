@@ -28,7 +28,6 @@ class App extends Component {
     fetch('/home')
       .then(res => res.json())
       .then(data => {
-        console.log('mounted');
         return this.setState({
           ...this.state,
           chatrooms: data
@@ -83,7 +82,7 @@ class App extends Component {
       <div id='container'>
         <Router>
           <Routes>
-            <Route exact path='/' element={<MessageBoard refresh={this.refresh} signout={this.signOut} name={this.state.currentUser} chatrooms={this.state.chatrooms} favorites={this.state.favorites}/>} />
+            <Route exact path='/' element={<MessageBoard refresh={this.refresh} signout={this.signOut} name={this.state.currentUser} chatrooms={this.state.chatrooms} favorites={this.state.favorites} socket={socket}/>} />
             <Route path='/chatroom' element={<Chatroom socket={socket}/>} />
           </Routes>
         </Router>
