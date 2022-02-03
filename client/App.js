@@ -28,7 +28,7 @@ class App extends Component {
     fetch('/home')
       .then(res => res.json())
       .then(data => {
-        // console.log(data);
+        console.log('mounted');
         return this.setState({
           ...this.state,
           chatrooms: data

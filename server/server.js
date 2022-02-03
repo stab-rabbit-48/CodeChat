@@ -68,8 +68,7 @@ const server = app.listen(PORT, () => {
 const io = socket(server, {cors : {origin: '*'}});
 
 io.on('connect', socket => {
-  socket.user = "Me";
-  console.log(socket.user + ' connected')
+  console.log(socket.id + ' connected')
   // when the user enters the room
 
   socket.on('join', ({ room }) => {
@@ -85,7 +84,7 @@ io.on('connect', socket => {
 
   // when the user leave the room
   socket.on('disconnect', () => {
-    console.log(socket.user + ' disconnected');
+    console.log(socket.id + ' disconnected');
     // const user = removeUser(name);
     // io.to(user.room).emit('message', { user: 'admin', message: `${user.name} has left the room` });
     // io.to(user.room).emit('roomInfo', { room: user.room, users: getUsers(user.room)});
