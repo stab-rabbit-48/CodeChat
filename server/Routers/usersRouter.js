@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const loginController = require('../controllers/loginController.js');
 
 //api/users/register ----> adds a record to users table db
 router.post('/register', (req, res) => {
@@ -9,6 +10,10 @@ router.post('/register', (req, res) => {
 //api/users/verifylogin ----> checks the users table to see if it finds a record
 router.post('/verifylogin', (req, res) => {
   console.log('hit')
+});
+
+router.get('/grabUser', loginController.grabUser, (req, res) => {
+  return res.status(200).json(res.locals.user); //res.locals.user = {username: foo, userID: foo}
 });
 
 /*----------stretch goals -------------*/

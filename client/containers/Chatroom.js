@@ -30,48 +30,45 @@ const Chatroom = props => {
   useEffect(() => {
     // get room_id from props
     // get name from props ?
-    console.log(state);
+    // console.log(state);
+    
     const { name, room } = state;
     setRoom(room);
     setName(name);
 
-    socket.emit('join', { name, room }, (error) => {
+    console.log('room name', room);
+
+    socket.emit('join', { room }, (error) => {
       if (error) alert(error);
     });
   }, [state]);
 
+  socket.on('receivedMessage', (msgPackage) => {
+    setPrevMessages(prevMessages.concat(msgPackage));
+  })
+
 // --------------------------------------------------------------------
 
-  useEffect(() => {
-    // When a message is received from the server
-    socket.on('message', ({ user, message }) => {
-      // push the received message to prevMessages
-      const msgReceived = { user, message };
-      setMessage(prevMessages => [...prevMessages, msgReceived]);
-    });
+  // useEffect(() => {
+  //   // When a message is received from the server
+  //   socket.on('message', ({ user, message }) => {
+  //     // push the received message to prevMessages
+  //     const msgReceived = { user, message };
+  //     setMessage(prevMessages => [...prevMessages, msgReceived]);
+  //   });
 
-    // When roomInfo is received from the server
-    socket.on('roomInfo', ({ room, users }) => {
-      setParticipants(users);
-    });
-  }, []);
-
-  const sendMessage = (e) => {
-    e.preventDefault();
-
-    if (message) {
-      socket.emit('sendMessage', { name, message }, () => {
-        setMessage('');
-      });
-    }
-  };
+  //   // When roomInfo is received from the server
+  //   socket.on('roomInfo', ({ room, users }) => {
+  //     setParticipants(users);
+  //   });
+  // }, []);
 
   return (
     <div className="chatroom">
       <div className='container'>
-        <ChatRoomInfo room={room} />
-        <Messages messages={prevMessages} username={name} />
-        <Input setMessage={setMessage} sendMessage={sendMessage} message={message}/>
+        <ChatRoomInfo room={room} /> {/*title*/} 
+        <Messages messages={prevMessages} username={name} /> {/*messageboard*/}
+        <Input setMessage={setMessage} room={room} name={name} message={message} socket={socket}/> {/*inputbox*/}
       </div>
     </div>
   );

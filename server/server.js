@@ -3,7 +3,7 @@ const socket = require('socket.io');
 const app = express();
 const cors = require('cors');
 const path = require('path');
-const { addUser, removeUser, getUser, getUsers } = require('./userFunctions');
+const cookieParser = require('cookie-parser');
 const homeController = require('./controllers/homeController');
 const loginController = require('./controllers/loginController');
 const chatController = require('./controllers/chatController');
@@ -15,6 +15,7 @@ const apiRouter = require('./Routers/apiRouter.js');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 
 app.get('/', (req, res) => {
@@ -70,19 +71,15 @@ io.on('connect', socket => {
   socket.user = "Me";
   console.log(socket.user + ' connected')
   // when the user enters the room
-  socket.on('join', ({ name, room }) => {
-    // const { user } = addUser({ name, room });
-
-    // // socket.join(user.room);
-    // socket.to(user.room).emit('message', { user: 'admin', message: `${user.name}, welcome to room ${user.room}!` });
-    // socket.broadcast.emit('message', { user: 'admin', message: `${user.name} has joined the room!` });
-    // io.to(user.room).emit('roomInfo', { room: user.room, users: getUsers(users.room) });
+  socket.on('join', ({ room }) => {
+    socket.join(room);
   });
 
   // when the user send a message
-  socket.on('sendMessage', ({ name, message }) => {
+  socket.on('sendMessage', ({ name, message, room }) => {
     // const user = getUser(name);
-    // io.to(user.room).emit('message', { user: user.name, message: message });
+    io.to(room).emit('receivedMessage', { name, message });
+    // io.sockets.emit('receivedMessage', {name, message});
   });
 
   // when the user leave the room

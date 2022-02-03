@@ -3,6 +3,7 @@
   justify-content: flex-end;
   padding: 0 5%;
   margin-top: 3px;
+  height: initial;
 }
 
 .messageText {
@@ -19,4 +20,10 @@
 
 .backgroundWhite {
   color: white;
+}
+
+#messageBoard {
+  height: 800px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }

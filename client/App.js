@@ -11,7 +11,7 @@ class App extends Component {
     super(props);
 
     this.state = {
-      currentUser: 'Michael',
+      currentUser: '',
       currentChatroom: '',
       token: '',
       loggedIn: false,
@@ -35,6 +35,17 @@ class App extends Component {
         });
       })
       .catch(err => console.log('App.componentDidMount: getChatrooms: ERROR: ', err));
+
+  fetch('/api/users/grabUser')
+  .then (res => res.json())
+  .then (data => {
+    console.log(data);
+    return this.setState({
+      ...this.state,
+      currentUser: data.username
+    });
+  })
+
   }
 
   logIn() {
