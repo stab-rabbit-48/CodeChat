@@ -74,6 +74,7 @@ userController.setCookieANDToken = (req, res, next) => {
     res.cookie('user_id', res.locals.user.userID);
     res.cookie('username', res.locals.user.username, { httpOnly: true });
   }
+  console.log('i guess not');
   return next();
 }
 
