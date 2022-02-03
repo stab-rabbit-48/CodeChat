@@ -3,17 +3,28 @@ import './Input.css';
 
 const Input = props => {
   // props should have the following properties
-  const { setMessage, sendMessage, message } = props;
+  const { setMessage, name, message, room, socket } = props;
+
+  const sendMessage = (e) => {
+    e.preventDefault();
+
+    if (message) {
+      socket.emit('sendMessage', { name, message, room }, () => {
+        setMessage('');
+      });
+    }
+  };
+
   return (
-    <form className='form'>
+    <form className='form' onSubmit={sendMessage}>
       <input className='input' 
              type='text' 
              placeholder='enter a message...' 
              value={message} 
              onChange={e => setMessage(e.target.value)}
-             onKeyPress={e => e.key === 'Enter' ? sendMessage() : null}
+             onKeyPress={e => e.key === 'Enter' ? sendMessage : null}
       />
-      <button id = "input" className='sendButton' onClick={() => sendMessage()}>Send</button>
+      <button id = "input" className='sendButton'>Send</button>
     </form>
   );
 };

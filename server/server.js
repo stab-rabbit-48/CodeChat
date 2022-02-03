@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const path = require('path');
-const { addUser, removeUser, getUser, getUsers } = require('./userFunctions');
+const cookieParser = require('cookie-parser');
 const homeController = require('./controllers/homeController');
 const userController = require('./controllers/userController');
 const chatController = require('./controllers/chatController');
@@ -64,33 +64,35 @@ const server = app.listen(PORT, () => {
 // -------------------------------------------------------------------------
 // const io = socket(server, {cors : {origin: '*'}});
 
-// io.on('connect', socket => {
-//   console.log('connected')
-//   // when the user enters the room
-//   socket.on('join', ({ name, room }) => {
-//     const { user } = addUser({ name, room });
+io.on('connect', socket => {
+  console.log(socket.id + ' connected')
+  // when the user enters the room
 
-//     // socket.join(user.room);
-//     socket.to(user.room).emit('message', { user: 'admin', message: `${user.name}, welcome to room ${user.room}!` });
-//     socket.broadcast.emit('message', { user: 'admin', message: `${user.name} has joined the room!` });
-//     io.to(user.room).emit('roomInfo', { room: user.room, users: getUsers(users.room) });
-//   });
+  socket.on('join', ({ room }) => {
+    socket.join(room);
+  });
 
-//   // when the user send a message
-//   socket.on('sendMessage', ({ name, message }) => {
-//     const user = getUser(name);
-//     io.to(user.room).emit('message', { user: user.name, message: message });
-//   });
+  // when the user send a message
+  socket.on('sendMessage', ({ name, message, room }) => {
+    // const user = getUser(name);
+    io.to(room).emit('receivedMessage', { name, message });
+    // io.sockets.emit('receivedMessage', {name, message});
+  });
 
-//   // when the user leave the room
-//   socket.on('disconnect', name => {
-//     const user = removeUser(name);
-//     io.to(user.room).emit('message', { user: 'admin', message: `${user.name} has left the room` });
-//     io.to(user.room).emit('roomInfo', { room: user.room, users: getUsers(user.room)});
-//   });
-// });
+  //when user lands on homepage
+  socket.on('leave', (arr) => {
+    for (let i = 0; i < arr.length; i++) {
+      socket.leave(arr[i].title);
+    }
+  })
 
-
-// // -------------------------------------------------------------------------
+  // when the user leave the room
+  socket.on('disconnect', () => {
+    console.log(socket.id + ' disconnected');
+    // const user = removeUser(name);
+    // io.to(user.room).emit('message', { user: 'admin', message: `${user.name} has left the room` });
+    // io.to(user.room).emit('roomInfo', { room: user.room, users: getUsers(user.room)});
+  });
+});
 
 

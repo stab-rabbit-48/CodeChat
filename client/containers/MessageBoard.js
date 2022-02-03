@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 // import { useNavigate } from "react-router-dom";
 import ChatroomElement from '../components/ChatroomElement';
 import FavoriteElement from '../components/FavoriteElement';
@@ -6,19 +6,17 @@ import FavoriteElement from '../components/FavoriteElement';
 import AddChatroom from '../components/AddChatroom';
 
 const MessageBoard = props => {
-  /*
-  props = {
-    name: '', 
-    chatrooms: [{
-      title: 
-      status: 
-      password:
-    },]
-  }
-  */
+  const {socket} = props;
+    
 
   const chatrooms = props.chatrooms.map((el, i) => <ChatroomElement key={i} i={i} name={props.name} chatroomName={el.title} status={el.status} password={el.password}/>)
   const favorites = props.favorites.map((el, i) => <FavoriteElement key={i} i={i} name={props.name} chatroomName={el} />)
+
+  console.log('props.chatrooms', props.chatrooms);
+
+  useEffect(() => {
+    socket.emit('leave', props.chatrooms)
+  }, []);
 
   // const navigate = useNavigate();
 

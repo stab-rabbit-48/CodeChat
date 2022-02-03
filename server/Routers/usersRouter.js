@@ -4,6 +4,7 @@ const dbApi = require('../messageBoardModel.js');
 const userController = require('../controllers/userController.js');
 const { generateAccessToken } = require('../utils/users');
 
+const loginController = require('../controllers/loginController.js');
 
 //api/users/register ----> adds a record to users table db
 router.post('/register',
@@ -36,6 +37,10 @@ router.get('/logout',
   }
 )
 
+
+router.get('/grabUser', loginController.grabUser, (req, res) => {
+  return res.status(200).json(res.locals.user); //res.locals.user = {username: foo, userID: foo}
+});
 
 /*----------stretch goals -------------*/
 router.post('/favorite', (req, res) => {
