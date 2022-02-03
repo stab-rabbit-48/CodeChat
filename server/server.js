@@ -1,5 +1,5 @@
 const express = require('express');
-// const socket = require('socket.io');
+const socket = require('socket.io');
 const app = express();
 const cors = require('cors');
 const path = require('path');
@@ -7,9 +7,6 @@ const cookieParser = require('cookie-parser');
 const homeController = require('./controllers/homeController');
 const userController = require('./controllers/userController');
 const chatController = require('./controllers/chatController');
-const cookieParser = require('cookie-parser');
-
-
 
 
 const PORT = 3000;
@@ -62,7 +59,7 @@ const server = app.listen(PORT, () => {
 
 
 // -------------------------------------------------------------------------
-// const io = socket(server, {cors : {origin: '*'}});
+const io = socket(server, {cors : {origin: '*'}});
 
 io.on('connect', socket => {
   console.log(socket.id + ' connected')
