@@ -71,8 +71,9 @@ io.on('connect', socket => {
   socket.user = "Me";
   console.log(socket.user + ' connected')
   // when the user enters the room
+
   socket.on('join', ({ room }) => {
-    socket.join(room);
+    socket.join(room); //welp -> 'test room' , Miko -> 'test room'
   });
 
   // when the user send a message
