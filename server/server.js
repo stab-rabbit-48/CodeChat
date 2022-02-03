@@ -1,5 +1,5 @@
 const express = require('express');
-// const socket = require('socket.io');
+const socket = require('socket.io');
 const app = express();
 const cors = require('cors');
 const path = require('path');
@@ -7,7 +7,6 @@ const cookieParser = require('cookie-parser');
 const homeController = require('./controllers/homeController');
 const userController = require('./controllers/userController');
 const chatController = require('./controllers/chatController');
-const cookieParser = require('cookie-parser');
 
 
 
@@ -16,7 +15,7 @@ const PORT = 3000;
 
 const apiRouter = require('./Routers/apiRouter.js');
 
-
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -25,17 +24,33 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../dist', 'index.html'));
 });
 
+app.get('/login', (req, res) => {
+  res.sendFile(path.join(__dirname, '../dist', 'index.html'));
+});
+
+app.get('/register', (req, res) => {
+  res.sendFile(path.join(__dirname, '../dist', 'index.html'));
+});
+
+app.get('/chatroom', (req, res) => {
+  res.sendFile(path.join(__dirname, '../dist', 'index.html'));
+});
+
 // router handler
 app.use('/api', apiRouter);
 
-// app.get('/home', homeController.getChatrooms, (req, res) => {
-//   return res.status(200).json(res.locals.chatrooms);
-// });
+app.get('/home', homeController.getChatrooms, (req, res) => {
+  return res.status(200).json(res.locals.chatrooms);
+});
 
 // // access chatroom 
 //will need to be "router.get('/chatroom/*chatroom_id*', -> to access specific chatroom
 app.get('/chatroom', homeController.loadChat, (req, res) => {
   return res.status(200).json('foo')
+});
+
+app.post('/newChat', homeController.newChat, (req, res) => {
+  return res.status(200).json('[]');
 });
 
 // router error 
@@ -62,10 +77,9 @@ const server = app.listen(PORT, () => {
 
 
 // -------------------------------------------------------------------------
-// const io = socket(server, {cors : {origin: '*'}});
+const io = socket(server, {cors : {origin: '*'}});
 
 io.on('connect', socket => {
-  console.log(socket.id + ' connected')
   // when the user enters the room
 
   socket.on('join', ({ room }) => {
@@ -88,7 +102,6 @@ io.on('connect', socket => {
 
   // when the user leave the room
   socket.on('disconnect', () => {
-    console.log(socket.id + ' disconnected');
     // const user = removeUser(name);
     // io.to(user.room).emit('message', { user: 'admin', message: `${user.name} has left the room` });
     // io.to(user.room).emit('roomInfo', { room: user.room, users: getUsers(user.room)});

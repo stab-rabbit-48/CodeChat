@@ -8,15 +8,6 @@ import ChatRoomInfo from '../components/ChatRoomInfo';
 import Messages from '../components/messages/Messages';
 import Input from '../components/Input';
 
-const end_point = 'http://localhost:3000/';
-
-// let socket = io(end_point, {
-//   "force new connection" : true,
-//   "reconnectionAttempts": "Infinity", 
-//   "timeout" : 10000, 
-//   transports: ['polling', 'websocket'],
-// });
-
 const Chatroom = props => {
   const [name, setName] = useState('');
   const [room, setRoom] = useState('');
@@ -28,9 +19,6 @@ const Chatroom = props => {
   const { socket } = props;
 
   useEffect(() => {
-    // get room_id from props
-    // get name from props ?
-    // console.log(state);
     
     const { name, room } = state;
     setRoom(room);

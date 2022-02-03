@@ -3,7 +3,7 @@ CREATE TABLE chatrooms (
   id BIGINT PRIMARY KEY UNIQUE NOT NULL GENERATED ALWAYS AS IDENTITY, 
   chatroom_name VARCHAR(255) NOT NULL, 
   owner_id BIGINT REFERENCES users (id) NOT NULL, 
-  is_private BOOLEAN NOT NULL, 
+  is_private BOOLEAN NOT NULL, --to be changed into status: string
   password VARCHAR(255) NOT NULL
 );
 

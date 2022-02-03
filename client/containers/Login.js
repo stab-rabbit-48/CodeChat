@@ -32,7 +32,6 @@ const Login = props => {
     
   }
 
-
   return (
     <div className = "login-container">
       <form onSubmit={handleSubmit} className="login-box">  
@@ -44,12 +43,5 @@ const Login = props => {
     </div>
   )
 }
-
-
-
-
-
-
-
 
 export default Login;
