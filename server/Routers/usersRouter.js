@@ -47,6 +47,7 @@ router.post('/favorite/chatroom/:id',
 
 
 router.get('/grabUser', loginController.grabUser, (req, res) => {
+  console.log('req.cookies', res.locals.user);
   return res.status(200).json(res.locals.user); //res.locals.user = {username: foo, userID: foo}
 });
 

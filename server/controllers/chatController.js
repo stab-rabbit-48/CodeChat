@@ -16,6 +16,22 @@ chatController.postMsg = (req, res, next) => {
         .catch((err) => {next('issues with loadChat middleware: ', err)})
 }
 
+chatController.getChat = (req, res, next) => {
+  const roomID = req.params.id;
+  const sqlQuery = `
+  SELECT m.user_id, m.message, u.username as name, m.time_stamp
+  FROM messages m
+  JOIN users u on m.user_id = u.id
+  WHERE chatroom_id = $1
+  ORDER BY m.time_stamp asc
+  `
+  db.query(sqlQuery, [String(roomID)], (err, result) => {
+    if(err) console.log('error occured in chatController.getChat');
+    res.locals.messages = result.rows;
+    next();
+  });
+}
+
 
 // userEnters
 chatController.userIn = (req, res, next) => {

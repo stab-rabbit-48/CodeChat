@@ -11,28 +11,36 @@ import Input from '../components/Input';
 const Chatroom = props => {
   const [name, setName] = useState('');
   const [room, setRoom] = useState('');
+  const [room_id, setRoom_Id] = useState('');
   const [participants, setParticipants] = useState('');
   const [message, setMessage] = useState('');
   const [prevMessages, setPrevMessages] = useState([]);
 
   const { state } = useLocation();
-  const { socket } = props;
+  const { socket, currentUserId } = props;
 
   useEffect(() => {
     
-    const { name, room } = state;
+    const { name, room, room_id} = state;
     setRoom(room);
     setName(name);
+    setRoom_Id(room_id);
+    fetch(`/api/messages/all/${room_id}`)
+      .then(res => res.json())
+      .then(data => {
+        setPrevMessages(data);
+        document.getElementById('messageBoard').scrollTo(0, document.getElementById('messageBoard').scrollHeight);
+      });
 
-    console.log('room name', room);
-
-    socket.emit('join', { room }, (error) => {
+    socket.emit('join', { room_id }, (error) => {
       if (error) alert(error);
     });
   }, [state]);
 
   socket.on('receivedMessage', (msgPackage) => {
+    console.log('msgPackage',   msgPackage);
     setPrevMessages(prevMessages.concat(msgPackage));
+    document.getElementById('messageBoard').scrollTo(0, document.getElementById('messageBoard').scrollHeight);
   })
 
 // --------------------------------------------------------------------
@@ -56,7 +64,7 @@ const Chatroom = props => {
       <div className='container'>
         <ChatRoomInfo room={room} /> {/*title*/} 
         <Messages messages={prevMessages} username={name} /> {/*messageboard*/}
-        <Input setMessage={setMessage} room={room} name={name} message={message} socket={socket}/> {/*inputbox*/}
+        <Input setMessage={setMessage} room={room} name={name} message={message} room_id={room_id} socket={socket} currentUserId = {currentUserId}/> {/*inputbox*/}
       </div>
     </div>
   );

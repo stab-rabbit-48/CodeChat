@@ -3,13 +3,13 @@ import './Input.css';
 
 const Input = props => {
   // props should have the following properties
-  const { setMessage, name, message, room, socket } = props;
+  const { setMessage, name, message, room, socket, room_id, currentUserId } = props;
 
   const sendMessage = (e) => {
     e.preventDefault();
 
     if (message) {
-      socket.emit('sendMessage', { name, message, room }, () => {
+      socket.emit('sendMessage', { name, message, room_id, currentUserId }, () => {
         
       });
       setMessage('');

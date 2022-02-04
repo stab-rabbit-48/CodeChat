@@ -36,7 +36,7 @@ const Register = props => {
         <input type='text' name='username' required placeholder='username'></input>
         <input type='password' name='password' required placeholder='password'></input>
         <button type = 'submit'>Register</button>
-        <button type = 'button' id="long-button" onClick = {() => { navigate('/login') }}>Already a member?</button>
+        <button type = 'button' id="long" onClick = {() => { navigate('/login') }}>Already a member?</button>
       </form>
     </div>
   )
