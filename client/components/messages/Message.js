@@ -11,10 +11,12 @@ const Message = props => {
     // console.log('test'); 
     return (
     <div className='messageContainer justifyEnd backgroundBlue'>
-      <div className='textContainer'>
-        <p>{msgReceived.message}</p>
-      </div>  
-      <p className='sent'>{msgReceived.name}</p>
+      <div className="textbox">
+        <p className='sent'>{msgReceived.name} : </p>
+        <div className='textContainer'>
+          <p>{msgReceived.message}</p>
+        </div>  
+      </div>
     </div>
   );
 // }

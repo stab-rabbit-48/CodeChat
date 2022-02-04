@@ -34,9 +34,11 @@ const Login = props => {
 
   return (
     <div className = "login-container">
-      <form onSubmit={handleSubmit} className="login-box">  
-        <input type='text' name='username' required placeholder='username'></input>
-        <input type='password' name='password' required placeholder='password'></input>
+      <h1>CodeChat</h1>
+     <form onSubmit={handleSubmit} className="login-box">  
+        <input type='text' name='username' required placeholder='enter your username...'></input>
+        <input type='password' name='password' required placeholder='enter your password...'></input>
+        <br/>
         <button id = 'loginButton' type = 'submit'>Login</button>
         <button id = 'signup' type = 'button' onClick = {handleSignup}>Sign Up </button>
       </form>

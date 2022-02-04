@@ -18,7 +18,7 @@ class App extends Component {
       token: null,
       loggedIn: true,
       chatrooms: [],
-      favorites: ['David', 'Yuanji', 'Evan', 'Charlie'],
+      favorites: ['David', 'Yuanji', 'Evan', 'Charlie', 'Miko', 'Nico', 'Nick', 'Vincent']
     };
 
     this.logIn = this.logIn.bind(this);

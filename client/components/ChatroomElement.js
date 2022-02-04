@@ -13,7 +13,7 @@ const ChatroomElement = props => {
       <button onClick={(e) => {
         document.querySelector(`#password${props.i}`).style.display='block';
       }}>Locked</button>
-      <ChatroomPassword i={props.i} name={props.name} chatroomName={props.chatroomName} password={props.password} />
+      <ChatroomPassword i={props.i} name={props.name} chatroomName={props.chatroomName} room_id={props.room_id} password={props.password} />
     </div>
   );
   console.log('props', props);

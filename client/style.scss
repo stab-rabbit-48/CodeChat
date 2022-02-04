@@ -166,49 +166,87 @@ html {
 }
 
 .login-container {
+  background-color: #F7F7F7;
+  margin: 0px;
   display: flex;
   // flex-direction: column;
   // margin: auto auto auto auto;
   align-items: center;
   justify-content: center;
 
-  .login-box {
-    background-color: red;   
-    left: 50%;
-    max-width: 150px;
-    max-height: 150px;
-    // margin: auto auto auto auto;
+h1 {
+  text-align: center;
+  font-size: 90px;
+}
+
+  .login-box {  
+    position: absolute;
+    width: 250px;
+    height: 350px;
+    border-radius: 2px;
+
     input {
-      height: 25px;
+      border-radius: 3px;
+      height: 20px;
       width: 150px;
+      // text-align: center;
     }
     button {
+      background-color: #63d471;
+      border-radius: 3px;
+      margin: 2px;
+      border: 1px solid black;
+      transition: all 0.5s ease;
       height: auto;
       width: auto;
     }
+    button:hover{
+      background-color: #63a4ff;
+      border: 2px solid #7ee8fa;
+      color: white;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    
   }
 }
 
 .register-container {
+  background-color: #F7F7F7;
   display: flex;
   // flex-direction: column;
   // margin: auto auto auto auto;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
 
   .register-box {
-    background-color: blue;   
     left: 50%;
     max-width: 150px;
-    max-height: 150px;
+    max-height: 40px;
+    h3{
+      font-size: 40px;
+      text-align: center;
+    }
     // margin: auto auto auto auto;
     input {
       height: 25px;
       width: 150px;
     }
     button {
+      background-color: #63d471;
+      border-radius: 3px;
+      margin: 2px;
+      border: 1px solid black;
+      transition: all 0.5s ease;
       height: auto;
       width: auto;
+    }
+    button:hover {
+      background-color: #63a4ff;
+      border: 2px solid #7ee8fa;
+      color: white;
+      border-radius: 3px;
+      cursor: pointer;
     }
   }
 }

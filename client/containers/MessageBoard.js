@@ -30,7 +30,7 @@ const MessageBoard = props => {
       </header>
       <main>
         <nav>
-          <h2 id='favorites'> Favorites </h2>
+          <h2 id='favorites'> Contributors </h2>
           {favorites}
           <button onClick={props.signout}>Sign Out</button>
         </nav>
