@@ -22,7 +22,7 @@ class App extends Component {
       currentUserId: null,
       currentChatroom: null,
       token: null,
-      loggedIn: true,
+      loggedIn: false,
       chatrooms: [],
       favorites: ['David', 'Yuanji', 'Evan', 'Charlie', 'Miko', 'Nico', 'Nick', 'Vincent']
     };

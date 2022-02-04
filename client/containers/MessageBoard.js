@@ -44,7 +44,7 @@ const MessageBoard = props => {
           <button onClick={logout}>Sign Out</button>
         </nav>
         <section>
-          {/* {chatrooms} */}
+          {chatrooms}
         </section>
       </main>
     </div>

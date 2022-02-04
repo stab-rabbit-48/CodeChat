@@ -21,8 +21,9 @@ userController.verifylogin = (req, res, next) => {
     } 
     if (data.rows.length !== 1) {
       res.locals.isAuthenticated = false;
+      return next();
     }
-    bcrypt.compare(password, data.rows[0].password, (err, result) => {
+    bcrypt.compare(password, (data.rows[0] || {}).password, (err, result) => {
       if (err) return next({ log: 'There was an error in verifyLogin bcrypt compare'});
       if (result === true) {
         res.locals.username = username;
