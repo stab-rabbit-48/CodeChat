@@ -1,6 +1,6 @@
-html {
-  height: 98%;
-  width: 99%;
+
+body {
+  margin: 0;
 }
 
 * {
@@ -24,9 +24,8 @@ html {
 .messageBoard {
   display: flex;
   flex-direction: column;
-  height: 90%;
-  width: 90%;
-  margin: 1rem;
+  height: 100%;
+  width: 100%;
 
   * {
     height: initial;
@@ -165,26 +164,67 @@ html {
   }
 }
 
+$google-blue: #1a73e8;
+$lighten-google-blue: lighten($google-blue, 20%);
+$darken-google-blue: darken($google-blue, 20%);
+
 .login-container {
   display: flex;
   // flex-direction: column;
   // margin: auto auto auto auto;
   align-items: center;
   justify-content: center;
+  height: 100%;
+  width: 100%;
+  background-color: $lighten-google-blue;
+
+  p {
+    font: arial;
+    font-size: 30px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5px;
+    height: 35px; 
+    color: $darken-google-blue;
+  }
 
   .login-box {
-    background-color: red;   
-    left: 50%;
-    max-width: 150px;
-    max-height: 150px;
-    // margin: auto auto auto auto;
+    display: flex;
+    flex-direction: column;
+    border-width: 5px;   
+    border-style: solid;
+    border-color: $google-blue;
+    border-radius: 8px;
+    background-color: white;
+    // left: 50%;
+    max-width: 300px;
+    max-height: 350px;
+
     input {
-      height: 25px;
-      width: 150px;
+      font-family: arial;
+      font-size: 16px;
+      border-style: solid;
+      border-radius: 5px;
+      border-color: $google-blue;
+      text-align: center;
+      height: 35px;
+      width: 180px;
+      margin: 15px auto 15px auto;
     }
     button {
-      height: auto;
-      width: auto;
+      font-family: arial;
+      font-size: 16px;
+      color: $google-blue;
+      margin-left: auto;
+      margin-right: auto;
+      margin: 20px auto 0px auto;
+      height: 30px;
+      width: 120px;
+      background-color: white;
+      border-style: solid;
+      border-radius: 5px;
+      border-color: $google-blue;
     }
   }
 }
@@ -195,20 +235,59 @@ html {
   // margin: auto auto auto auto;
   align-items: center;
   justify-content: center;
+  height: 100%;
+  width: 100%;
+  background-color: $lighten-google-blue;
 
+  h3 {
+    font: arial;
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5px;
+    height: 35px; 
+    color: $darken-google-blue;
+  }
   .register-box {
-    background-color: blue;   
-    left: 50%;
-    max-width: 150px;
-    max-height: 150px;
-    // margin: auto auto auto auto;
+    display: flex;
+    flex-direction: column;
+    border-width: 5px;   
+    border-style: solid;
+    border-color: $google-blue;
+    border-radius: 8px;
+    background-color: white;
+    // left: 50%;
+    max-width: 300px;
+    max-height: 350px;
     input {
-      height: 25px;
-      width: 150px;
+      font-family: arial;
+      font-size: 16px;
+      border-style: solid;
+      border-radius: 5px;
+      border-color: $google-blue;
+      text-align: center;
+      height: 35px;
+      width: 180px;
+      margin: 15px auto 15px auto;
     }
     button {
-      height: auto;
-      width: auto;
+      font-family: arial;
+      font-size: 16px;
+      color: $google-blue;
+      margin-left: auto;
+      margin-right: auto;
+      margin: 20px auto 0px auto;
+      height: 30px;
+      width: 120px;
+      background-color: white;
+      border-style: solid;
+      border-radius: 5px;
+      border-color: $google-blue;
     }
   }
+}
+
+#long-button {
+  height: 30px;
+  width: 160px;
 }

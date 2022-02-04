@@ -26,9 +26,7 @@ class App extends Component {
       favorites: ['David', 'Yuanji', 'Evan', 'Charlie'],
     };
 
-
     this.logIn = this.logIn.bind(this);
-    this.signOut = this.signOut.bind(this);
     this.refresh = this.refresh.bind(this);
   }
   
@@ -77,12 +75,6 @@ class App extends Component {
     })
   }
 
-  signOut() {
-    this.setState({
-      ...this.state,
-      loggedIn: false
-    })
-  }
 
   refresh() {
     fetch('/home', {mode: 'cors'})
@@ -107,7 +99,6 @@ class App extends Component {
               this.state.loggedIn ? 
               <MessageBoard 
                 refresh={this.refresh} 
-                signout={this.signOut} 
                 name={this.state.currentUser}
                 chatrooms={this.state.chatrooms} 
                 favorites={this.state.favorites} 

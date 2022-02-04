@@ -19,14 +19,7 @@ router.post('/login',
   userController.verifylogin,
   userController.setCookieANDToken,
   (req, res) => {
-    // console.log('in last login middleware')
-    // console.log('res.locals', res.locals);
-    // console.log(res.locals.token)    
-    // console.log(res.locals.isAuthenticated)
-    // console.log(res.locals.userId)
-    // console.log(res.locals.username)
     return res.status(200).json(res.locals);
-    // return res.status(200).json({serverData: res.locals});//.res.json(token);
   }
 );
 
@@ -40,7 +33,7 @@ router.get('/authenticate',
 router.get('/logout', 
   userController.logout, 
   (req, res) => {
-    return res.redirect('/login');
+    return res.status(200).json({ success: true });
   }
 )
 

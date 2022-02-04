@@ -41,6 +41,7 @@ const Login = props => {
   return (
     <div className = "login-container">
       <form onSubmit={handleSubmit} className="login-box">  
+        <p> Login </p>
         <input type='text' name='username' required placeholder='username'></input>
         <input type='password' name='password' required placeholder='password'></input>
         <button id = 'loginButton' type = 'submit'>Login</button>
