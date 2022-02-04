@@ -25,9 +25,12 @@
   "homepage": "https://github.com/Fairy-Armadillo/CodeChat#readme",
   "dependencies": {
     "@testing-library/user-event": "^13.5.0",
+    "bcrypt": "^5.0.1",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^15.0.0",
     "express": "^4.12.3",
+    "jsonwebtoken": "^8.5.1",
     "pg": "^8.7.1",
     "query-string": "^7.1.0",
     "react": "^17.0.2",
@@ -36,7 +39,8 @@
     "react-router-dom": "^6.2.1",
     "regenerator-runtime": "^0.13.9",
     "socket.io": "^4.4.1",
-    "socket.io-client": "^4.4.1"
+    "socket.io-client": "^4.4.1",
+    "style-components": "^0.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.16.12",

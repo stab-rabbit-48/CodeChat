@@ -1,8 +1,10 @@
 .messageContainer {
-  display: flex;
-  justify-content: flex-end;
+  /* display: flex; */
+  /* justify-content: flex-start; */
+  display: block;
   padding: 0 5%;
   margin-top: 3px;
+  height: initial;
 }
 
 .messageText {
@@ -14,9 +16,25 @@
 }
 
 .backgroundBlue {
-  color: rgb(63, 63, 221);
+  color: rgb(0, 0, 0);
 }
 
 .backgroundWhite {
   color: white;
+}
+
+#messageBoard {
+  height: 800px;
+  padding: 20px 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.messageContainer p {
+  display: inline;
+}
+
+.textContainer {
+  display: inline;
+  width: initial;
 }

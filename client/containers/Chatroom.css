@@ -10,24 +10,38 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: #FFFFFF;
-  border-radius: 8px;
-  height: 80%;
+  background: #c2dfe3;
+  /* border-radius: 8px; */
+  height: 95%;
   width: 80%;
-  border: 5px solid black;
+  border: 1px solid black;
 }
 
 .infoBar h4 {
   font-size: 70px;
-  color: green;
-  margin: 10px 0 0 20px;
+  text-align: center;
+  color: white;
+  background-color: #253237;
+  margin: 0 0 0 0;
 }
 
 .infoBar {
-  border-bottom: 5px solid black;
+  border-bottom: 1px solid black;
   height: 9rem;
 }
 
 .messagesContainer {
-  border-bottom: 5px solid black;
+  border-bottom: 1px solid black;
+  font-size: 2rem;
+}
+
+.messageContainer {
+  margin: 40px 0;
+}
+
+.textbox {
+  display: inline;
+  background-color: azure;
+  padding: 10px 15px;
+  border-radius: 20px;
 }

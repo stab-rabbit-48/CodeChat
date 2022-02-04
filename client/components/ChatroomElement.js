@@ -13,16 +13,16 @@ const ChatroomElement = props => {
       <button onClick={(e) => {
         document.querySelector(`#password${props.i}`).style.display='block';
       }}>Locked</button>
-      <ChatroomPassword i={props.i} name={props.name} chatroomName={props.chatroomName} password={props.password} />
+      <ChatroomPassword i={props.i} name={props.name} chatroomName={props.chatroomName} room_id={props.room_id} password={props.password} />
     </div>
   );
-
+  console.log('props', props);
   return(
-    <div className='chatroomrows'>
+    <div className='chatroomrows' id={props.room_id}>
       <h2 onClick={(e) => {
         // navigate(`/chatroom/${props.chatroomName}`);
         // navigate(`/chatroom?name=${props.name}&room=${props.chatroomName}`);
-        navigate('/chatroom', {state: {name: props.name, room: props.chatroomName}});
+        navigate('/chatroom', {state: {name: props.name, room: props.chatroomName, room_id: props.room_id}});
       }}>Chatroom Title: {props.chatroomName}</h2>
 
       {/* <Link to={`/chatroom?name=${props.name}&room=${props.chatroomName}`}>

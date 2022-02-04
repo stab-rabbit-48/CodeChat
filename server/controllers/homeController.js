@@ -11,6 +11,7 @@ homeController.getChatrooms = (req, res, next) => {
     db.query(sqlQuery)
       .then((data) => {
         res.locals.chatrooms = data.rows;
+        // console.log('res.locals.chatrooms', res.locals.chatrooms);
         next();
       })
       .catch((err) => {
@@ -22,7 +23,7 @@ homeController.getChatrooms = (req, res, next) => {
 
 homeController.newChat = (req, res, next) => {
     const { title, status, password } = req.body;
-    const params = [ title, status, password ];
+    const params = [ title, status, password];
     const sqlQuery = 'INSERT INTO chatrooms (title, status, password) VALUES ($1,$2,$3)';
 
     db.query(sqlQuery, params)
